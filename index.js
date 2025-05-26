@@ -17,7 +17,7 @@ function moveBackground(event) {
 function toggleContrast() {
   contrastToggle = !contrastToggle;
   if (contrastToggle) {
-    document.body.classList += " dark-theme";
+    document.body.classList.add("dark-theme");  
   } else {
     document.body.classList.remove("dark-theme");
   }
@@ -27,7 +27,7 @@ function contact(event) {
   event.preventDefault();
   const loading = document.querySelector(".modal__overlay--loading");
   const success = document.querySelector(".modal__overlay--success");
-  loading.classList += " modal__overlay--visible";
+  loading.classList.add("modal__overlay--visible");  
   emailjs
     .sendForm(
       "service_80ih0if",
@@ -37,7 +37,7 @@ function contact(event) {
     )
     .then(() => {
       loading.classList.remove("modal__overlay--visible");
-      success.classList += " modal__overlay--visible";
+      success.classList.add("modal__overlay--visible");
     })
     .catch(() => {
       loading.classList.remove("modal__overlay--visible");
@@ -48,12 +48,15 @@ function contact(event) {
 }
 
 function toggleModal() {
+  const body = document.body;
   if (isModalOpen) {
     isModalOpen = false;
-    document.body.classList.remove("modal--open");
+    body.classList.remove("modal--open");
+    body.style.overflow = ""; 
   } else {
     isModalOpen = true;
-    document.body.classList.add("modal--open");
+    body.classList.add("modal--open");
+    body.style.overflow = "hidden"; 
   }
 }
 
@@ -90,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Main modal buttons (new modal logic)
+
   const openModalBtn = document.getElementById("openModalBtn");
   const closeModalBtn = document.getElementById("closeModalBtn");
   const mainModal = document.querySelector(".modal");
@@ -111,6 +114,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.addEventListener("click", (e) => {
     if (isModalOpen && mainModal && e.target === mainModal) {
+      toggleModal();
+    }
+  });
+
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && isModalOpen) {
       toggleModal();
     }
   });
